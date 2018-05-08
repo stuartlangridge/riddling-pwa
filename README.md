@@ -3,9 +3,9 @@ Riddling
 
 Riddling: A puzzle game involving intelligence, psychology, lateral thinking, research, and guesswork. For Google fiends, librarians, mathematicians, linguists, and pub quiz winners.
 
-The PWA version.
+This is the PWA version.
 
-Create new icons with the make_icons.py script, which requires imagemagick to be around.
+Build with `build.sh`, which creates a `dist` folder which is your web root.
 
 This requires `resources/riddles-unhashed.js`, which is the actual list of answers and looks like:
 
