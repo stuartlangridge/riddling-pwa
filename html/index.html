@@ -1,0 +1,816 @@
+<!doctype html>
+<html>
+<head>
+<meta charset=utf8>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Riddling">
+<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300|Just+Me+Again+Down+Here' rel='stylesheet' type='text/css'>
+<title>Riddling</title>
+<script src="riddles.js"></script>
+<script src="utils.js"></script>
+<script src="iscroll-lite.js"></script>
+<link rel="icon" type="image/png" href="icons/favicon-16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="icons/favicon-32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="icons/favicon-96.png" sizes="96x96">
+<link rel="apple-touch-icon" href="icons/older-iphone-120.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/iphone-6plus-180.png">
+<link rel="apple-touch-icon" sizes="152x152" href="icons/ipad-retina-152.png">
+<link rel="apple-touch-icon" sizes="167x167" href="icons/ipad-pro-167.png">
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+body, button {
+    font-family: "Helvetica Neue", "Roboto", "Segoe UI", "Ubuntu", sans-serif;
+}
+body {
+    font-weight: 300;
+    color: #7c7c7c;
+    background: #ebebeb; /* Old browsers */
+    overflow-x: hidden;
+}
+h1 {
+    margin: 0;
+    background: #cacaca;
+    text-align: right;
+    font-size: 1em;
+    font-weight: 300;
+    padding: 0 5% 0 0;
+    line-height: 44px;
+    overflow: auto;
+}
+#main {
+    background: #ebebeb;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    -webkit-transition: all 500ms cubic-bezier(0.000, 0.485, 0.000, 0.985);
+       -moz-transition: all 500ms cubic-bezier(0.000, 0.485, 0.000, 0.985);
+         -o-transition: all 500ms cubic-bezier(0.000, 0.485, 0.000, 0.985);
+            transition: all 500ms cubic-bezier(0.000, 0.485, 0.000, 0.985); /* custom */
+}
+h2 {
+    margin: 0;
+}
+h2 > span {
+    display: none;
+}
+#main p {
+    width: 53%;
+    float: right;
+    text-align: left;
+    margin: 0;
+    height: 130px;
+    position: relative;
+    margin-bottom: 15px;
+}
+#main p > span {
+    position: absolute;
+    top: 32px;
+    left: 0;
+    right: 0;
+    font-weight: bold;
+    display: block;
+    font-size: 0.75em;
+}
+#main p > span > span {
+    display: block;
+    font-weight: 300;
+    font-size: 1.33em;
+    margin-top: 10px;
+}
+h2 strong {
+    font-size: 100px;
+    width: 40%;
+    margin-left: 3%;
+    float: left;
+    text-align: left;
+    font-weight: 100;
+    color: #dd4814;
+    text-align: right;
+}
+h2 strong span {
+    border-right: 1px solid #a3a3a3;
+    display: block;
+    margin: 10px 0;
+    padding-right: 10px;
+}
+form {
+    clear: both;
+    width: 100%;
+    text-align: center;
+    max-width: 800px;
+    margin: auto;
+}
+input {
+    width: 90%;
+    border-width: 0;
+    background: white;
+    color: #7c7c7c;
+    padding: 10px;
+    box-sizing: content-box;
+    border-radius: 4px;
+    height: 1.5em;
+    font-size: 1em;
+    min-height: 1.5em;
+}
+input[type=submit] {
+    -webkit-appearance: none;
+    margin-top: 0.4em;
+    background: #dd4814;
+    width: 90%;
+    padding: 10px;
+    color: white;
+    height: 1.5em;
+    min-height: 1.5em;
+}
+
+body.show-subsidiary #main {
+    -webkit-transform: translateX(30%);
+}
+
+.subsidiary {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    color: black;
+    z-index: 10;
+    -webkit-transition: -webkit-transform 500ms cubic-bezier(0.000, 0.485, 0.000, 0.985);
+       -moz-transition: -moz-transform 500ms cubic-bezier(0.000, 0.485, 0.000, 0.985);
+         -o-transition: -o-transform 500ms cubic-bezier(0.000, 0.485, 0.000, 0.985);
+            transition: transform 500ms cubic-bezier(0.000, 0.485, 0.000, 0.985); /* custom */
+
+
+    -webkit-transform: translateX(-100%);
+    -webkit-transition-delay: 0.0s;
+    padding: 0 20px 20px 20px;
+}
+
+body.show-subsidiary .subsidiary {
+    -webkit-transform: translateX(0);
+}
+
+h1 button {
+    border-width: 0;
+    background: transparent;
+    float: left;
+    color: white;
+    text-decoration: none;
+    font-size: 1.3em;
+    line-height: 1;
+    outline: 0;
+    height: 44px;
+    padding-left: 3%;
+    min-width: 44px;
+}
+h1 button.menu, h1 button.sound, h1 button.helpbutton { float: left; }
+h1 button.sound { padding-top: 4px; padding-left: 4%; }
+h1 button.riddling {
+    float: right;
+    color: #7c7c7c;
+    font-weight: 300;
+    font-size: 1em;
+}
+
+body.wrong #main {
+    opacity: 0;
+    z-index: 0;
+}
+body.no-subsidiary .subsidiary {
+    display: none;
+}
+
+#wrong, #right {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    font-size: 60px;
+    font-weight: 100;
+    color: #7c7c7c;
+}
+#wrong span, #right div {
+    position: absolute;
+    top: 30%;
+    left: 5%;
+    width: 90%;
+
+}
+#right {
+    opacity: 0;
+    -webkit-transition: opacity 0.3s linear;
+    pointer-events: none;
+    z-index: 5;
+    background: #ebebeb;
+    color: #7c7c7c;
+    font-size: 1em;
+    font-weight: 400;
+}
+#right h3 { font-weight: 100; margin: 0; font-size: 60px; }
+#right h4 { font-weight: 100; margin: 0; font-size: 2em; }
+body.right #right {
+    opacity: 1.0;
+    pointer-events: auto;
+}
+
+.answers {
+    background: white;
+    min-height: 100%;
+}
+.answers button.back {
+    float: left;
+    border-width: 0;
+    background: transparent;
+    font-size: 1em;
+    font-weight: 100;
+    color: #7c7c7c;
+    text-align: left;
+    margin: 0;
+    padding: 12px 15px 5px 3%;
+    margin-right: -20px;
+    outline: 0;
+}
+.answers .backcont {
+    overflow: auto;
+    height: 100px;
+    z-index: 6000;
+    position: relative;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(50%,rgba(255,255,255,1)), color-stop(100%,rgba(255,255,255,0))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,1) 50%,rgba(255,255,255,0) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,1) 50%,rgba(255,255,255,0) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,1) 50%,rgba(255,255,255,0) 100%); /* IE10+ */
+    background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,1) 50%,rgba(255,255,255,0) 100%); /* W3C */
+}
+
+button.reset {
+    display: block;
+    margin: auto;
+    border-width: 0;
+    padding: 10px 40px;
+    box-sizing: content-box;
+    border-radius: 4px;
+    height: 1.5em;
+    font-size: 1em;
+    -webkit-appearance: none;
+    margin-top: 0.4em;
+    background: #dd4814;
+    color: white;
+    height: 1.5em;
+    min-height: 1.5em;
+}
+
+.answers ul {
+    margin: 80px 0 0 0;
+    padding: 0;
+}
+.answers ul li {
+    list-style: none;
+    margin: 0;
+    padding: 4px 0;
+    border-bottom: 1px solid #d5d5d5;
+    overflow: auto;
+}
+.answers ul li strong {
+    font-size: 3em;
+    float: left;
+    clear: left;
+    font-weight: 100;
+    margin-right: 6px;
+    color: #dd4814;
+    display: inline-block;
+    width: 24%;
+}
+.answers ul li span {
+    padding-top: 7px;
+    color: #7c7c7c;
+    display:inline-block;
+    float: left;
+    width: 73%;
+    font-weight: 400;
+}
+.answers ul li em {
+    display: block;
+    font-weight: 300;
+}
+
+#quote {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    color: #7c7c7c;
+    text-align: center;
+    z-index: 30;
+    background: white;
+    -webkit-transition: opacity 300ms linear;
+    transition: opacity 300ms linear;
+}
+#quote.faded {
+    opacity: 0;
+}
+blockquote {
+    position: absolute;
+    display: block;
+    vertical-align: middle;
+    text-align: center;
+    right: 10%;
+    top: 20%;
+    left: 10%;
+}
+
+#withlove {
+    text-align: center;
+    margin-top: 40px;
+}
+#about #kryogenix {
+    color: #dd4814;
+    font-weight: bold;
+    letter-spacing: 0.2em;
+    text-decoration: none;
+    font-family: "Roboto Condensed",  "Helvetica Neue", "Roboto", "Segoe UI", "Ubuntu", sans-serif;
+}
+
+#about {
+    display: block;
+    z-index: 30;
+    border-radius: 4px;
+    position: absolute;
+    top: 55px;
+    right: 12px;
+    width: 65%;
+    max-width: 400px;
+    height: 200px;
+    border: 1px solid #7c7c7c;
+    background: url(kobackgroundwhite.png);
+    padding: 5px;
+    opacity: 0;
+    pointer-events: none;
+    color: #7c7c7c;
+}
+#about.showing {
+    opacity: 1;
+    pointer-events: auto;
+}
+#about:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -40px;
+    right: 9%;
+    width: 0px;
+    height: 20px;
+    border-width: 0 20px 20px;
+    border-color: #7c7c7c transparent;
+    border-style: solid;
+}
+#about a {
+    color: #7c7c7c;
+}
+
+#winscreen {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: white;
+    pointer-events: none;
+    z-index: 45;
+    display: none;
+    text-align: center;
+}
+#winscreen blockquote {
+    padding: 0;
+    margin: 0;
+}
+#winscreen.showing {
+    pointer-events: auto;
+    display: block;
+}
+#winscreen h3 { font-weight: 100; margin: 0; font-size: 60px; }
+
+#whiteness {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: white;
+    z-index: 500;
+    display: none;
+}
+
+.scrollbase {
+    position: relative;
+    height: 260px;
+}
+
+#lswarning {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    color: #fafafa;
+    text-align: center;
+    z-index: 60;
+    padding: 3em;
+    background: #990033;
+    display: none;
+}
+
+#help {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    color: #cc0000;
+    text-align: center;
+    z-index: 80;
+    padding: 0em;
+    background: transparent;
+    font-family: "Just Me Again Down Here", cursive;
+    display: none;
+}
+#help[class^="help"] { display: block; }
+#help > div {
+    display: none;
+    position: absolute;
+    background: rgba(200,255,0,0.7);
+    font-size: 24px;
+    line-height: 1.1;
+    box-sizing: border-box;
+    outline: 2000px solid rgba(0,0,0,0.3);
+}
+#help #help-level {
+    top: 44px;
+    width: 43%;
+    left: 0;
+    height: 145px;
+    text-align: left;
+    padding-top: 5px;
+    padding-left: 5px;
+}
+#help.help-level #help-level { display: block; }
+#help #help-clue {
+    top: 44px;
+    width: 57%;
+    right: 0;
+    height: 145px;
+    text-align: right;
+    padding-left: 10%;
+    padding-top: 5px;
+    padding-right: 5px;
+}
+#help.help-clue #help-clue { display: block; }
+#help #help-answer {
+    top: 194px;
+    width: 100%;
+    left: 0;
+    height: 230px;
+    text-align: center;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    justify-content: flex-end;
+    flex-direction: column;
+}
+#help.help-answer #help-answer { display: flex; }
+</style>
+</head>
+<body>
+<div class="container">
+    <div id="about">
+        <p id="withlove">Made with love by<br><br><a href="http://www.kryogenix.org/" id="kryogenix">KRYOGENIX</a><br><br>
+        Uses sounds from <a href='http://www.freesound.org/people/Ultranova105/sounds/136756/'>Ultranova105</a>
+        and <a href='http://www.freesound.org/people/grunz/sounds/109663/'>grunz</a> and
+        crypto from <a href='http://www.movable-type.co.uk'>Chris Veness</a>
+    </div>
+
+    <div id="wrong"><span>wrong!</span></div>
+
+    <div id="main">
+    <h1><button class="riddling" onclick="toggleAbout(); return false" ontouchstart="toggleAbout(); return false">Riddling</button>
+        <button class="menu" onclick="showAnswers(); return false;" ontouchstart="showAnswers();return false;"><img src="icon-menu.svg" alt="Menu"></button>
+        <button class="sound" onclick="toggleSound(); return false;" ontouchstart="toggleSound();return false;"><img src="audio-volume-high-symbolic.svg" alt="Mute/unmute"></button>
+        <button class="helpbutton" onclick="showHelp(); return false;" ontouchstart="showHelp();return false;"><img src="help.svg" alt="Help"></button></h1>
+        <h2><span>Level </span><strong><span>1</span></strong></h2>
+        <p><span>Clue<span>Here is the clue</span></span></p>
+        <form autocomplete="off">
+            <input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="type the answer for the next level" id="answer" aria-label="Your answer here">
+            <input type="submit" value="Go">
+        </form>
+
+    </div>
+
+    <div class="subsidiary answers">
+        <div class="backcont">
+            <button class="back" ontouchstart="unflip(); return false" onclick="unflip(); return false">Back</button>
+        </div>
+        <div class="scrollbase">
+            <div>
+                <ul>
+                    <li><strong></strong><span>no answers, yet. Keep trying!</span></li>
+                </ul>
+                <button class="reset" onclick="resetgame()">Reset game</button></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="right"><div>
+        <h3>correct!</h3>
+        <h4>Answer for level <span>0</span>: <strong>code</strong></h4>
+        <p>explanation</p>
+    </div></div>
+</div>
+
+<audio id="soundwrong" preload="auto">
+    <source src="136756_ultranova105_negativewarning.mp3">
+    <source src="136756_ultranova105_negativewarning.ogg">
+    <source src="136756_ultranova105_negativewarning.wav">
+</audio>
+<audio id="soundright" preload="auto">
+    <source src="109663__grunz__success-low.mp3">
+    <source src="109663__grunz__success-low.ogg">
+    <source src="109663__grunz__success-low.wav">
+</audio>
+
+<div id="quote" ontouchstart="hidequote(); return false" onclick="hidequote(); return false">
+<blockquote>
+    <p>&ldquo;Don’t call asking what the object of the game is&hellip;
+    figuring that out is the object of the game.&rdquo;</p>
+    <footer>&mdash; Daniel Schorr, <em>The Game</em>, 1997</p>
+</blockquote>
+</div>
+
+<div id="winscreen">
+<blockquote>
+    <h3>you win</h3>
+    <p>&ldquo;You wanna know what it is? What it's all about?<br>
+    &lsquo;Whereas once I was blind, but now I can see.&rsquo;&rdquo;</p>
+    <footer>&mdash; Ted, <em>The Game</em>, 1997</footer>
+    <p>Tell others of your victory!</p>
+    <p><a href="http://twitter.com/home?status=I&rsquo;ve finally completed @sil's Riddling! Get it for your phone at http://www.kryogenix.org/riddling"><img src="tweetblue.png" alt="Tweet"></a>
+        <a href="https://www.facebook.com/sharer/sharer.php?s=100&p%5Btitle%5D=Riddling+for+Ubuntu&p%5Bsummary%5D=I've+completed+Riddling!+A+puzzle+involving+intelligence,+psychology,+lateral+thinking,+research,+and+guesswork&p[url]=http://www.kryogenix.org/riddling"><img src="fbblue.png" alt="Facebook"></a>
+    <button class="reset" onclick="resetgame()">Reset game</button></p>
+</blockquote>
+</div>
+
+<div id="whiteness">
+</div>
+
+<div id="lswarning">I don’t seem to be able to store your progress. This may be because
+you’re in Private Browsing mode. Unfortunately, <em>Riddling</em> doesn’t
+work in Private Browsing, because we need to save where you’re up to in
+order that you can play. Please reload <em>Riddling</em> in your normal
+browser. Our apologies.</div>
+
+<div id="help">
+    <div id="help-level">This is the level number (<span class="levelno">1</span>)</div>
+    <div id="help-clue">This is the thing corresponding to the level number
+        (<span class="levelno">1</span>)</div>
+    <div id="help-answer"><span class="sigh">You want to get to the next level
+    (<span class="levelup">1</span>), so you need to type
+    the answer corresponding to “<span class="levelup">1</span>”.</span></div>
+</div>
+
+<script>
+var RIDDLING_GAME = "riddling";
+var LEVEL = 0, answer=document.getElementById("answer"), answers = ['',''];
+function toggleAbout() { document.getElementById("about").classList.toggle("showing"); }
+function hideAbout(e) {
+    if (e.target.nodeName.toLowerCase() == "a") {
+        return;
+    }
+    document.getElementById("about").classList.remove("showing");
+    e.preventDefault();
+}
+document.getElementById("about").addEventListener("touchstart", hideAbout, false);
+document.getElementById("about").addEventListener("click", hideAbout, false);
+function resetgame() {
+    localStorage.removeItem(RIDDLING_GAME + "answers");
+    localStorage.removeItem(RIDDLING_GAME + "quote");
+    location.reload();
+}
+function hidequote() {
+    localStorage.setItem(RIDDLING_GAME + "quote", "quote");
+    var q = document.getElementById("quote");
+    q.classList.add("faded");
+    setTimeout(function() {
+        q.parentNode.removeChild(document.getElementById("quote"));
+        answer.focus();
+    }, 400);
+}
+answer.onfocus = function() {
+    setTimeout(function() { window.scrollTop = 0; }, 0);
+}
+function updateAnswersPage() {
+    var ul = document.querySelector(".answers ul");
+    ul.innerHTML = "";
+    for (var i=2; i<answers.length; i++) {
+        var li = document.createElement("li");
+        var strong = document.createElement("strong");
+        var span = document.createElement("span");
+        var em = document.createElement("em");
+        strong.appendChild(document.createTextNode((i-1).toString()));
+        span.appendChild(document.createTextNode(answers[i].answer));
+        em.innerHTML = answers[i].explanation;
+        span.appendChild(em);
+        li.appendChild(strong);
+        li.appendChild(span);
+        ul.appendChild(li);
+    }
+    setTimeout(function () { myScroll.refresh(); }, 0);
+}
+function loadAnswersFromStorage() {
+    if (window.localStorage) {
+        var ls = localStorage[RIDDLING_GAME + "answers"];
+        try {
+            var a = JSON.parse(localStorage[RIDDLING_GAME + "answers"]);
+            if (a.length) {
+                answers = a;
+                LEVEL = answers.length - 1 - 1; // one less to be on level, one more less because we inclevel now
+                updateAnswersPage();
+            }
+        } catch(e) {}
+    }
+}
+var LAST_FLIPPED_ANSWER_TIME = 0;
+function showAnswers() {
+    var timenow = Date.now();
+    if (timenow - LAST_FLIPPED_ANSWER_TIME < 1000) return;
+    LAST_FLIPPED_ANSWER_TIME = timenow;
+    answer.blur();
+    document.body.classList.add("show-subsidiary");
+    document.body.classList.add("answers");
+}
+function unflip() {
+    var timenow = Date.now();
+    if (timenow - LAST_FLIPPED_ANSWER_TIME < 1000) return;
+    LAST_FLIPPED_ANSWER_TIME = timenow;
+    document.body.classList.remove("show-subsidiary");
+    document.body.classList.remove("answers");
+    setTimeout(function() { answer.focus(); }, 300);
+}
+function winscreen() {
+    document.getElementById("winscreen").className = "showing";
+}
+function incrementLevel() {
+    answer.value = "";
+    document.body.classList.remove("right");
+    LEVEL += 1;
+    if (LEVEL >= (riddles.length-1)) {
+        winscreen();
+        return;
+    }
+    document.querySelector("p span span").innerHTML = riddles[LEVEL+1].clue;
+    document.querySelector("h2 strong span").innerHTML = LEVEL;
+    setTimeout(function() {
+        if (window.localStorage && localStorage[RIDDLING_GAME + "quote"] == "quote") {
+            // don't focus if the quote is showing
+            answer.focus();
+        }
+    }, 300);
+}
+
+function interceptLinks() {
+    Array.prototype.slice.call(document.querySelectorAll("a")).forEach(function(a) {
+        a.addEventListener("click", function(e) {
+            window.open(a.href, "_system");
+            e.preventDefault();
+        }, false);
+    });
+}
+
+function playMedia(mediaElementId) {
+    if (document.querySelector("h1 button.sound img").src.indexOf("mute") != -1) return;
+    document.getElementById(mediaElementId).play();
+}
+
+function toggleSound() {
+    var img = document.querySelector("h1 button.sound img");
+    if (img.src.indexOf("mute") == -1) {
+        img.src = "audio-volume-muted-symbolic.svg";
+        localStorage.setItem(RIDDLING_GAME + "sound", "mute");
+    } else {
+        img.src = "audio-volume-high-symbolic.svg";
+        localStorage.setItem(RIDDLING_GAME + "sound", "play");
+    }
+}
+
+function showHelp() {
+    Array.prototype.slice.call(document.querySelectorAll("span.levelno")).forEach(function(s) {
+        s.innerHTML = LEVEL.toString();
+    })
+    Array.prototype.slice.call(document.querySelectorAll("span.levelup")).forEach(function(s) {
+        s.innerHTML = (LEVEL + 1).toString();
+    })
+    document.getElementById("help").className = "help-level";
+}
+function nextHelp(e) {
+    e.preventDefault();
+    var h = document.getElementById("help");
+    var nclass;
+    switch (h.className) {
+        case "help-level": nclass = "help-clue"; break;
+        case "help-clue": nclass = "help-answer"; break;
+        case "help-answer": nclass = null; break;
+        default: nclass = null; break;
+    }
+    if (nclass) {
+        h.className = nclass;
+    } else {
+        h.className = "";
+    }
+}
+
+function confirmLocalStorageOK() {
+    try {
+        localStorage.setItem("lsok", "yes");
+    } catch(e) {
+        document.getElementById("lswarning").style.display = "block";
+    }
+}
+
+function formsubmit() {
+    answer.blur();
+    if (answer.value == "CHEAT") {
+        winscreen();
+        e.preventDefault();
+        return false;
+    }
+    if (exports.checksum(answer.value.toLowerCase()) == riddles[LEVEL+1].answer || exports.checksum(answer.value.toLowerCase()) == universal) {
+        if (exports.checksum(answer.value.toLowerCase()) == universal) {
+            // used the universal answer
+            document.querySelector("#right h4 strong").innerHTML = "???";
+            document.querySelector("#right p").innerHTML = "(no explanations for cheaters)";
+            answers.push({
+                answer: "(cheated)",
+                explanation: "(no explanations for cheaters)",
+                time: new Date().getTime()
+            });
+        } else {
+            // got it right
+            document.querySelector("#right h4 strong").innerHTML = answer.value;
+            document.querySelector("#right p").innerHTML = exports.decrypt(answer.value.toLowerCase(), riddles[LEVEL+1].explanation);
+            answers.push({
+                answer: answer.value.toLowerCase(),
+                explanation: exports.decrypt(answer.value.toLowerCase(), riddles[LEVEL+1].explanation),
+                time: new Date().getTime()
+            });
+        }
+        document.querySelector("#right h4 span").innerHTML = LEVEL+1;
+        document.body.classList.add("right");
+        playMedia("soundright");
+        setTimeout(incrementLevel, 3300);
+        localStorage.setItem(RIDDLING_GAME + "answers", JSON.stringify(answers));
+        updateAnswersPage();
+    } else {
+        document.body.classList.add("wrong");
+        document.body.classList.add("no-subsidiary");
+        playMedia("soundwrong");
+        setTimeout(function() {
+            document.body.classList.remove("wrong");
+            setTimeout(function() {
+                document.body.classList.remove("no-subsidiary");
+                answer.focus();
+            }, 300);
+        }, 1050);
+    }
+}
+document.getElementsByTagName("form")[0].addEventListener("submit", function(e) {
+    e.preventDefault();
+    try {
+        formsubmit(e);
+    } catch(err) {
+        console.log("submit error", err);
+    }
+}, false);
+
+if (window.localStorage && localStorage[RIDDLING_GAME + "quote"] == "quote") {
+    document.getElementById("quote").parentNode.removeChild(document.getElementById("quote"));
+}
+
+if (window.localStorage && localStorage[RIDDLING_GAME + "sound"] == "mute") {
+    document.querySelector("h1 button.sound img").src = "audio-volume-muted-symbolic.svg";
+}
+
+confirmLocalStorageOK();
+
+loadAnswersFromStorage();
+incrementLevel();
+document.getElementById("whiteness").style.display = "none";
+document.getElementById("help").addEventListener("click", nextHelp, false);
+document.getElementById("help").addEventListener("touchstart", nextHelp, false);
+
+var myScroll = new IScroll('.scrollbase');
+
+</script>
+</body>
+</html>
