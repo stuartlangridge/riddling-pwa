@@ -19,3 +19,6 @@ node "$RESOURCES"/hash-riddles.js > $DIST/riddles.js
 
 echo Create icons
 python3 resources/make_icons_web_version.py
+
+echo Minify
+html-minifier --minify-css=true --minify-js=true html/index.html > dist/index.html
