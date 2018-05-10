@@ -481,6 +481,17 @@ blockquote {
     flex-direction: column;
 }
 #help.help-answer #help-answer { display: flex; }
+
+/*
+small screens, with big address bars, etc
+note that we can't do this with media queries, because
+on android, when the keyboard comes up, screen height
+changes dynamically.
+*/
+body.shrunk h2 strong { font-size: 50px; }
+body.shrunk #main p { height: 65px; }
+body.shrunk #main p > span { top: 20px; }
+body.shrunk #main p > span > span { margin-top: 2px; }
 </style>
 </head>
 <body>
@@ -807,6 +818,8 @@ document.getElementById("whiteness").style.display = "none";
 document.getElementById("help").addEventListener("click", nextHelp, false);
 document.getElementById("help").addEventListener("touchstart", nextHelp, false);
 
+if (window.screen.availHeight < 650) { document.body.className += " shrunk"; }
 </script>
+
 </body>
 </html>
