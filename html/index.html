@@ -352,7 +352,7 @@ blockquote {
     max-width: 400px;
     height: 200px;
     border: 1px solid #7c7c7c;
-    background: url(kobackgroundwhite.png);
+    background: url(images/kobackgroundwhite.png);
     padding: 5px;
     opacity: 0;
     pointer-events: none;
@@ -497,9 +497,9 @@ blockquote {
 
     <div id="main">
     <h1><button class="riddling" onclick="toggleAbout(); return false" ontouchstart="toggleAbout(); return false">Riddling</button>
-        <button class="menu" onclick="showAnswers(); return false;" ontouchstart="showAnswers();return false;"><img src="icon-menu.svg" alt="Menu"></button>
-        <button class="sound" onclick="toggleSound(); return false;" ontouchstart="toggleSound();return false;"><img src="audio-volume-high-symbolic.svg" alt="Mute/unmute"></button>
-        <button class="helpbutton" onclick="showHelp(); return false;" ontouchstart="showHelp();return false;"><img src="help.svg" alt="Help"></button></h1>
+        <button class="menu" onclick="showAnswers(); return false;" ontouchstart="showAnswers();return false;"><img src="images/icon-menu.svg" alt="Menu"></button>
+        <button class="sound" onclick="toggleSound(); return false;" ontouchstart="toggleSound();return false;"><img src="images/audio-volume-high-symbolic.svg" alt="Mute/unmute"></button>
+        <button class="helpbutton" onclick="showHelp(); return false;" ontouchstart="showHelp();return false;"><img src="images/help.svg" alt="Help"></button></h1>
         <h2><span>Level </span><strong><span>1</span></strong></h2>
         <p><span>Clue<span>Here is the clue</span></span></p>
         <form autocomplete="off">
@@ -531,14 +531,14 @@ blockquote {
 </div>
 
 <audio id="soundwrong" preload="auto">
-    <source src="136756_ultranova105_negativewarning.mp3">
-    <source src="136756_ultranova105_negativewarning.ogg">
-    <source src="136756_ultranova105_negativewarning.wav">
+    <source src="audio/136756_ultranova105_negativewarning.mp3">
+    <source src="audio/136756_ultranova105_negativewarning.ogg">
+    <source src="audio/136756_ultranova105_negativewarning.wav">
 </audio>
 <audio id="soundright" preload="auto">
-    <source src="109663__grunz__success-low.mp3">
-    <source src="109663__grunz__success-low.ogg">
-    <source src="109663__grunz__success-low.wav">
+    <source src="audio/109663__grunz__success-low.mp3">
+    <source src="audio/109663__grunz__success-low.ogg">
+    <source src="audio/109663__grunz__success-low.wav">
 </audio>
 
 <div id="quote" ontouchstart="hidequote(); return false" onclick="hidequote(); return false">
@@ -556,8 +556,8 @@ blockquote {
     &lsquo;Whereas once I was blind, but now I can see.&rsquo;&rdquo;</p>
     <footer>&mdash; Ted, <em>The Game</em>, 1997</footer>
     <p>Tell others of your victory!</p>
-    <p><a href="http://twitter.com/home?status=I&rsquo;ve finally completed @sil's Riddling! Get it for your phone at http://www.kryogenix.org/riddling"><img src="tweetblue.png" alt="Tweet"></a>
-        <a href="https://www.facebook.com/sharer/sharer.php?s=100&p%5Btitle%5D=Riddling+for+Ubuntu&p%5Bsummary%5D=I've+completed+Riddling!+A+puzzle+involving+intelligence,+psychology,+lateral+thinking,+research,+and+guesswork&p[url]=http://www.kryogenix.org/riddling"><img src="fbblue.png" alt="Facebook"></a>
+    <p><a href="http://twitter.com/home?status=I&rsquo;ve finally completed @sil's Riddling! Get it for your phone at http://www.kryogenix.org/riddling"><img src="images/tweetblue.png" alt="Tweet"></a>
+        <a href="https://www.facebook.com/sharer/sharer.php?s=100&p%5Btitle%5D=Riddling+for+Ubuntu&p%5Bsummary%5D=I've+completed+Riddling!+A+puzzle+involving+intelligence,+psychology,+lateral+thinking,+research,+and+guesswork&p[url]=http://www.kryogenix.org/riddling"><img src="images/fbblue.png" alt="Facebook"></a>
     <button class="reset" onclick="resetgame()">Reset game</button></p>
 </blockquote>
 </div>
@@ -626,7 +626,6 @@ function updateAnswersPage() {
         li.appendChild(span);
         ul.appendChild(li);
     }
-    setTimeout(function () { myScroll.refresh(); }, 0);
 }
 function loadAnswersFromStorage() {
     if (window.localStorage) {
@@ -696,10 +695,10 @@ function playMedia(mediaElementId) {
 function toggleSound() {
     var img = document.querySelector("h1 button.sound img");
     if (img.src.indexOf("mute") == -1) {
-        img.src = "audio-volume-muted-symbolic.svg";
+        img.src = "images/audio-volume-muted-symbolic.svg";
         localStorage.setItem(RIDDLING_GAME + "sound", "mute");
     } else {
-        img.src = "audio-volume-high-symbolic.svg";
+        img.src = "images/audio-volume-high-symbolic.svg";
         localStorage.setItem(RIDDLING_GAME + "sound", "play");
     }
 }
@@ -798,7 +797,7 @@ if (window.localStorage && localStorage[RIDDLING_GAME + "quote"] == "quote") {
 }
 
 if (window.localStorage && localStorage[RIDDLING_GAME + "sound"] == "mute") {
-    document.querySelector("h1 button.sound img").src = "audio-volume-muted-symbolic.svg";
+    document.querySelector("h1 button.sound img").src = "images/audio-volume-muted-symbolic.svg";
 }
 
 confirmLocalStorageOK();
@@ -808,8 +807,6 @@ incrementLevel();
 document.getElementById("whiteness").style.display = "none";
 document.getElementById("help").addEventListener("click", nextHelp, false);
 document.getElementById("help").addEventListener("touchstart", nextHelp, false);
-
-var myScroll = new IScroll('.scrollbase');
 
 </script>
 </body>
