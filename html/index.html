@@ -5,10 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Riddling">
-<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300|Just+Me+Again+Down+Here' rel='stylesheet' type='text/css'>
 <title>Riddling</title>
-<script src="riddles.js"></script>
-<script src="utils.js"></script>
 <link rel="icon" type="image/png" href="icons/favicon-16.png" sizes="16x16">
 <link rel="icon" type="image/png" href="icons/favicon-32.png" sizes="32x32">
 <link rel="icon" type="image/png" href="icons/favicon-96.png" sizes="96x96">
@@ -590,6 +587,8 @@ browser. Our apologies.</div>
     the answer corresponding to “<span class="levelup">1</span>”.</span></div>
 </div>
 
+<script src="riddles.js"></script>
+<script src="utils.js"></script>
 <script>
 var RIDDLING_GAME = "riddling";
 var LEVEL = 0, answer=document.getElementById("answer"), answers = ['',''];
@@ -820,6 +819,8 @@ document.getElementById("help").addEventListener("touchstart", nextHelp, false);
 
 if (window.screen.availHeight < 650) { document.body.className += " shrunk"; }
 </script>
+
+<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300|Just+Me+Again+Down+Here' rel='stylesheet' type='text/css'>
 
 </body>
 </html>
