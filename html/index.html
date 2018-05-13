@@ -422,63 +422,38 @@ blockquote {
 
 #help {
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    color: #cc0000;
+    top: 0;
+    color: #37d80c;
     text-align: center;
     z-index: 80;
     padding: 0em;
     background: transparent;
     font-family: "Just Me Again Down Here", cursive;
+    font-size: calc(22px + 2vw);
     display: none;
 }
-#help[class^="help"] { display: block; }
-#help > div {
-    display: none;
-    position: absolute;
-    background: rgba(200,255,0,0.7);
-    font-size: 24px;
-    line-height: 1.1;
-    box-sizing: border-box;
-    outline: 2000px solid rgba(0,0,0,0.3);
-}
-#help #help-level {
-    top: 44px;
-    width: 43%;
-    left: 0;
-    height: 145px;
-    text-align: left;
-    padding-top: 5px;
-    padding-left: 5px;
-}
-#help.help-level #help-level { display: block; }
-#help #help-clue {
-    top: 44px;
-    width: 57%;
-    right: 0;
-    height: 145px;
-    text-align: right;
-    padding-left: 10%;
-    padding-top: 5px;
-    padding-right: 5px;
-}
-#help.help-clue #help-clue { display: block; }
-#help #help-answer {
-    top: 194px;
-    width: 100%;
-    left: 0;
-    height: 230px;
-    text-align: center;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-bottom: 5px;
-    justify-content: flex-end;
-    flex-direction: column;
-}
-#help.help-answer #help-answer { display: flex; }
 
+#help > div {
+    position: absolute;
+    bottom: 50px;
+    left: 20px;
+    right: 20px;
+    visibility: hidden;
+}
+#help.help-level #help-level { visibility: visible; }
+#help.help-clue #help-clue { visibility: visible; }
+#help.help-answer #help-answer { visibility: visible; }
+
+#ring, #line {
+    position: absolute;
+    z-index: 50;
+    pointer-events: none;
+    opacity: 0.8;
+    display: none;
+}
 /*
 small screens, with big address bars, etc
 note that we can't do this with media queries, because
@@ -506,7 +481,7 @@ body.shrunk #main p > span > span { margin-top: 2px; }
     <h1><button class="riddling" onclick="toggleAbout(); return false" ontouchstart="toggleAbout(); return false">Riddling</button>
         <button class="menu" onclick="showAnswers(); return false;" ontouchstart="showAnswers();return false;"><img src="images/icon-menu.svg" alt="Menu"></button>
         <button class="sound" onclick="toggleSound(); return false;" ontouchstart="toggleSound();return false;"><img src="images/audio-volume-high-symbolic.svg" alt="Mute/unmute"></button>
-        <button class="helpbutton" onclick="showHelp(); return false;" ontouchstart="showHelp();return false;"><img src="images/help.svg" alt="Help"></button></h1>
+        <button class="helpbutton"><img src="images/help.svg" alt="Help"></button></h1>
         <h2><span>Level </span><strong><span>1</span></strong></h2>
         <p><span>Clue<span>Here is the clue</span></span></p>
         <form autocomplete="off">
@@ -548,7 +523,7 @@ body.shrunk #main p > span > span { margin-top: 2px; }
     <source src="audio/109663__grunz__success-low.wav">
 </audio>
 
-<div id="quote" ontouchstart="hidequote(); return false" onclick="hidequote(); return false">
+<div id="quote" ontouchstart="hidequote(); showHelp(); return false" onclick="hidequote(); showHelp(); return false">
 <blockquote>
     <p>&ldquo;Don’t call asking what the object of the game is&hellip;
     figuring that out is the object of the game.&rdquo;</p>
@@ -586,6 +561,19 @@ browser. Our apologies.</div>
     (<span class="levelup">1</span>), so you need to type
     the answer corresponding to “<span class="levelup">1</span>”.</span></div>
 </div>
+
+<svg id="ring" xmlns="http://www.w3.org/2000/svg" version="1.1"
+   viewBox="-1 2 36 34" preserveAspectRatio="none">
+    <path
+       d="m 11,32 c -3,-0 -6,-2 -8,-5 -1,-3 -2,-6 -1,-10 0,-3 2,-5 4,-7 6,-2 13,-4 19,-1 6,3 9,11 5,18 -4,6 -12,7 -19,5 m 18,-22 c -5,-5 -13,-5 -21,-2 3,-2 7,-3 11,-4 0,-0 0,-1 -0,-1 -5,1 -11,3 -14,6 -1,0 -2,1 -3,1 -0,0 -0,1 0,1 0,-0 0,-0 1,-0 -1,1 -2,2 -2,4 -3,7 -0,15 7,18 6,3 16,2 22,-3 5,-5 5,-14 -0,-20"
+       style="fill:#37d80c;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.4"
+       id="path4920" />
+</svg>
+
+<svg id="line" xmlns="http://www.w3.org/2000/svg" version="1.1"
+    viewBox="0 0 72 120" preserveAspectRatio="none" style="position:absolute;z-index:500">
+    <path style="fill:none;stroke:#37d80c;stroke-width:1" d="m 70,0 c 0,0 0,61 -35,61 -32,1 -32,66 -32,66"></path>
+ </svg>
 
 <script src="riddles.js"></script>
 <script src="utils.js"></script>

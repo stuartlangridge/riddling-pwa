@@ -120,29 +120,51 @@ function toggleSound() {
     }
 }
 
-function showHelp() {
+function showHelp(e) {
+    document.getElementById("help").style.display = "block";
     Array.prototype.slice.call(document.querySelectorAll("span.levelno")).forEach(function(s) {
         s.innerHTML = LEVEL.toString();
     })
     Array.prototype.slice.call(document.querySelectorAll("span.levelup")).forEach(function(s) {
         s.innerHTML = (LEVEL + 1).toString();
     })
-    document.getElementById("help").className = "help-level";
+    nextHelp(e);
 }
 function nextHelp(e) {
+    var ring = document.getElementById("ring");
+    var line = document.getElementById("line");
+    function setRingTo(helpsection, selector) {
+        var el = document.querySelector(selector).getBoundingClientRect();
+        ring.style.width = el.width + "px";
+        ring.style.height = el.height + "px";
+        ring.style.top = el.top + "px";
+        ring.style.left = el.left + "px";
+        ring.style.display = "block";
+        var words = document.getElementById(helpsection).getBoundingClientRect();
+        line.style.left = words.left + "px";
+        line.style.top = (el.bottom - 3) + "px";
+        line.style.height = (words.top - el.bottom) + 3 + "px";
+        var reqw = ((el.width / 2) + el.left - words.left);
+        line.style.width = reqw + "px";
+        line.style.display = "block";
+        line.getElementsByTagName("path")[0].style.strokeWidth = (document.body.offsetWidth - reqw) / 100;
+    }
+
     e.preventDefault();
     var h = document.getElementById("help");
     var nclass;
     switch (h.className) {
-        case "help-level": nclass = "help-clue"; break;
-        case "help-clue": nclass = "help-answer"; break;
-        case "help-answer": nclass = null; break;
+        case "": nclass = "help-level"; setRingTo(nclass, "#main > h2 strong"); break;
+        case "help-level": nclass = "help-clue"; setRingTo(nclass, "#main > p"); break;
+        case "help-clue": nclass = "help-answer"; setRingTo(nclass, "#main form"); break;
+        case "help-answer": nclass = null; ring.style.display = "none"; line.style.display = "none"; break;
         default: nclass = null; break;
     }
     if (nclass) {
         h.className = nclass;
     } else {
         h.className = "";
+        document.getElementById("help").style.display = "none";
     }
 }
 
@@ -224,5 +246,7 @@ incrementLevel();
 document.getElementById("whiteness").style.display = "none";
 document.getElementById("help").addEventListener("click", nextHelp, false);
 document.getElementById("help").addEventListener("touchstart", nextHelp, false);
+document.querySelector("button.helpbutton").addEventListener("click", showHelp, false);
+document.querySelector("button.helpbutton").addEventListener("touchstart", showHelp, false);
 
 if (window.screen.availHeight < 650) { document.body.className += " shrunk"; }
