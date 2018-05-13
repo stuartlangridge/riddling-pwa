@@ -464,6 +464,47 @@ body.shrunk h2 strong { font-size: 50px; }
 body.shrunk #main p { height: 65px; }
 body.shrunk #main p > span { top: 20px; }
 body.shrunk #main p > span > span { margin-top: 2px; }
+
+/*
+Landscape layout.
+Obviously it would be better to do this with an orientation:landscape media query.
+However, on an Android phone, when the virtual keyboard is used, the actual screen
+counts as resizing to whatever space is left between address bar and keyboard,
+and that's pretty much always a landscape box unless the phone is really tall.
+So we calculate landscapeness on startup and then don't change it.
+*/
+
+
+body.landscape #main h2 {
+    margin: 0;
+    float: left;
+    width: 15%;
+    margin-top: 50px;
+}
+body.landscape #main h2 strong {
+    margin: 0;
+    width: 100%;
+}
+body.landscape #main > p {
+    width: 45%;
+    float: left;
+    margin-top: 50px;
+    height: auto;
+    font-size: calc(22px + 2vw);
+    box-sizing: border-box;
+    padding-left: 1em;
+}
+body.landscape #main p > span {
+    position: static;
+    margin-top: 25px;
+}
+body.landscape #main form {
+    width: 40%;
+    clear: none;
+    float: left;
+    margin-top: 50px;
+    padding-top: 25px;
+}
 </style>
 </head>
 <body>

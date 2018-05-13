@@ -259,3 +259,5 @@ document.getElementById("right").addEventListener("click", skipRight, true);
 document.getElementById("right").addEventListener("touchstart", skipRight, true);
 
 if (window.screen.availHeight < 650) { document.body.className += " shrunk"; }
+var size = document.documentElement.getBoundingClientRect();
+if (size.width > size.height) { document.body.className += " landscape"; }
