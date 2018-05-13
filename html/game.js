@@ -176,6 +176,12 @@ function confirmLocalStorageOK() {
     }
 }
 
+var rightShowingTimer;
+function skipRight() {
+    clearTimeout(rightShowingTimer);
+    incrementLevel();
+}
+
 function formsubmit() {
     answer.blur();
     if (answer.value == "CHEAT") {
@@ -196,17 +202,18 @@ function formsubmit() {
         } else {
             // got it right
             document.querySelector("#right h4 strong").innerHTML = answer.value;
-            document.querySelector("#right p").innerHTML = exports.decrypt(answer.value.toLowerCase(), riddles[LEVEL+1].explanation);
+            var dec_expl = exports.decrypt(answer.value.toLowerCase(), riddles[LEVEL+1].explanation);
+            document.querySelector("#right p").innerHTML = dec_expl;
             answers.push({
                 answer: answer.value.toLowerCase(),
-                explanation: exports.decrypt(answer.value.toLowerCase(), riddles[LEVEL+1].explanation),
+                explanation: dec_expl,
                 time: new Date().getTime()
             });
         }
         document.querySelector("#right h4 span").innerHTML = LEVEL+1;
         document.body.classList.add("right");
         playMedia("soundright");
-        setTimeout(incrementLevel, 3300);
+        rightShowingTimer = setTimeout(incrementLevel, 2000 + (dec_expl.length * 40));
         localStorage.setItem(RIDDLING_GAME + "answers", JSON.stringify(answers));
         updateAnswersPage();
     } else {
@@ -248,5 +255,7 @@ document.getElementById("help").addEventListener("click", nextHelp, false);
 document.getElementById("help").addEventListener("touchstart", nextHelp, false);
 document.querySelector("button.helpbutton").addEventListener("click", showHelp, false);
 document.querySelector("button.helpbutton").addEventListener("touchstart", showHelp, false);
+document.getElementById("right").addEventListener("click", skipRight, true);
+document.getElementById("right").addEventListener("touchstart", skipRight, true);
 
 if (window.screen.availHeight < 650) { document.body.className += " shrunk"; }
